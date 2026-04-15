@@ -1,37 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FlexPay — Freelancer Invoice & Payment Platform
 
-## Getting Started
+A full-stack fintech web application built to demonstrate production-level frontend engineering skills.
 
-First, run the development server:
+🔗 **Live Demo:** [your-vercel-url.vercel.app](https://flexpay-hazel.vercel.app/)
+
+---
+
+## Test Credentials
+
+| Role       | Email            | Password    |
+| ---------- | ---------------- | ----------- |
+| Freelancer | ada@example.com  | password123 |
+| Admin      | admin@flexpay.io | admin123    |
+
+---
+
+## Features
+
+- **Authentication** — Login, signup, persistent sessions, route protection
+- **Onboarding** — Multi-step KYC flow with progress tracking
+- **Dashboard** — Wallet balance, invoice stats, recent transactions
+- **Invoices** — Create, filter, search, and mark as paid
+- **Transactions** — Paginated history with status filters and search
+- **Admin Panel** — KYC approvals, user management, invoice overview
+- **Optimistic UI** — Instant updates with automatic rollback on failure
+- **Skeleton Loaders** — Production-style loading states
+- **Collapsible Sidebar** — Clean, space-efficient navigation
+
+---
+
+## Tech Stack
+
+| Layer         | Technology                   |
+| ------------- | ---------------------------- |
+| Framework     | Next.js 16 (App Router)      |
+| Language      | TypeScript                   |
+| Styling       | Tailwind CSS + Inline Styles |
+| State         | Zustand                      |
+| Data Fetching | React Query                  |
+| HTTP          | Axios                        |
+| Auth          | localStorage + Route Guards  |
+| Deployment    | Vercel                       |
+
+---
+
+## Architecture
+
+src/
+├── app/ # Next.js App Router pages
+│ ├── (auth)/ # Login, Signup
+│ ├── (dashboard)/ # Dashboard, Invoices, Transactions, Onboarding
+│ ├── (admin)/ # Admin panel
+│ └── api/ # Mock API routes
+├── components/
+│ ├── ui/ # Reusable: Button, Input, Badge, Modal, Table...
+│ ├── layout/ # DashboardLayout, AuthLayout, RouteGuard
+│ ├── dashboard/ # StatsCard, RecentActivity
+│ ├── invoices/ # InvoiceForm, InvoiceActions
+│ ├── onboarding/ # StepPersonal, StepBusiness, StepIdentity, StepReview
+│ └── admin/ # UserTable, KycActions
+├── hooks/ # useAuth, useInvoices, useTransactions, useSearch
+├── services/ # authService, invoiceService, paymentService...
+├── store/ # Zustand: authStore, invoiceStore, walletStore...
+├── lib/ # axios, queryClient, mockData, format utils
+└── types/ # Global TypeScript interfaces
+
+---
+
+## Key Engineering Decisions
+
+- **Route groups** `(auth)`, `(dashboard)`, `(admin)` — logical separation without affecting URLs
+- **Optimistic UI** — UI updates instantly, rolls back on failure
+- **Service layer** — all API logic isolated from components
+- **Derived state** — filters computed from single source of truth, no duplicate arrays
+- **Zustand** over Redux — simpler, less boilerplate, same power for this scale
+
+---
+
+## Local Development
 
 ```bash
+git clone https://github.com/Dollypee18
+cd flexpay
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# Flexpay" 
+Open [http://localhost:3000](http://localhost:3000)
