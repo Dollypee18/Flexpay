@@ -2,7 +2,7 @@
 
 A full-stack fintech web application built to demonstrate production-level frontend engineering skills.
 
-🔗 **Live Demo:** [your-vercel-url.vercel.app](https://flexpay-hazel.vercel.app/)
+🔗 **Live Demo:** (https://flexpay-hazel.vercel.app/)
 
 ---
 
