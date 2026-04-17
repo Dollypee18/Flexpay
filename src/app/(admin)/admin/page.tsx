@@ -22,7 +22,6 @@ export default function AdminPage() {
   const [userFilter, setUserFilter] = useState<UserFilter>("all");
   const [toast, setToast] = useState<string | null>(null);
 
-  // Block non-admins
   if (user && user.role !== "admin") {
     router.push("/dashboard");
     return null;
@@ -54,7 +53,7 @@ export default function AdminPage() {
 
   return (
     <DashboardLayout>
-      <div style={{ padding: "32px" }}>
+      <div style={{ padding: "24px" }}>
         {/* Header */}
         <div style={{ marginBottom: "28px" }}>
           <h1
@@ -76,8 +75,8 @@ export default function AdminPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "16px",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "12px",
             marginBottom: "28px",
           }}
         >
@@ -146,7 +145,19 @@ export default function AdminPage() {
               onChange={(v) => setUserFilter(v as UserFilter)}
             />
           </div>
-          <UserTable users={filteredUsers} onAction={(msg) => setToast(msg)} />
+          <div
+            style={{
+              overflowX: "auto",
+              WebkitOverflowScrolling: "touch" as const,
+            }}
+          >
+            <div style={{ minWidth: "600px" }}>
+              <UserTable
+                users={filteredUsers}
+                onAction={(msg) => setToast(msg)}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Invoices Section */}
@@ -163,65 +174,75 @@ export default function AdminPage() {
           </h2>
           <div
             style={{
-              backgroundColor: "#161616",
-              border: "1px solid #2A2A2A",
-              borderRadius: "8px",
-              overflow: "hidden",
+              overflowX: "auto",
+              WebkitOverflowScrolling: "touch" as const,
             }}
           >
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "2fr 1fr 1fr 1fr",
-                padding: "12px 20px",
-                borderBottom: "1px solid #2A2A2A",
+                backgroundColor: "#161616",
+                border: "1px solid #2A2A2A",
+                borderRadius: "8px",
+                overflow: "hidden",
+                minWidth: "600px",
               }}
             >
-              {["Client", "Amount", "Status", "Due Date"].map((h) => (
-                <p
-                  key={h}
-                  style={{
-                    fontSize: "11px",
-                    color: "#555555",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    fontWeight: 500,
-                  }}
-                >
-                  {h}
-                </p>
-              ))}
-            </div>
-            {invoices.map((inv, index) => (
               <div
-                key={inv.id}
                 style={{
                   display: "grid",
                   gridTemplateColumns: "2fr 1fr 1fr 1fr",
-                  padding: "14px 20px",
-                  borderBottom:
-                    index < invoices.length - 1 ? "1px solid #2A2A2A" : "none",
-                  alignItems: "center",
+                  padding: "12px 20px",
+                  borderBottom: "1px solid #2A2A2A",
                 }}
               >
-                <p style={{ fontSize: "13px", color: "#F0F0F0" }}>
-                  {inv.clientName}
-                </p>
-                <p
+                {["Client", "Amount", "Status", "Due Date"].map((h) => (
+                  <p
+                    key={h}
+                    style={{
+                      fontSize: "11px",
+                      color: "#555555",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {h}
+                  </p>
+                ))}
+              </div>
+              {invoices.map((inv, index) => (
+                <div
+                  key={inv.id}
                   style={{
-                    fontSize: "13px",
-                    color: "#F0F0F0",
-                    fontFamily: "DM Mono, monospace",
+                    display: "grid",
+                    gridTemplateColumns: "2fr 1fr 1fr 1fr",
+                    padding: "14px 20px",
+                    borderBottom:
+                      index < invoices.length - 1
+                        ? "1px solid #2A2A2A"
+                        : "none",
+                    alignItems: "center",
                   }}
                 >
-                  {formatCurrency(inv.amount, inv.currency)}
-                </p>
-                <Badge variant={inv.status} />
-                <p style={{ fontSize: "12px", color: "#888888" }}>
-                  {formatDate(inv.dueDate)}
-                </p>
-              </div>
-            ))}
+                  <p style={{ fontSize: "13px", color: "#F0F0F0" }}>
+                    {inv.clientName}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: "#F0F0F0",
+                      fontFamily: "DM Mono, monospace",
+                    }}
+                  >
+                    {formatCurrency(inv.amount, inv.currency)}
+                  </p>
+                  <Badge variant={inv.status} />
+                  <p style={{ fontSize: "12px", color: "#888888" }}>
+                    {formatDate(inv.dueDate)}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

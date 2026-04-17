@@ -21,6 +21,17 @@ const MOCK_USERS = [
   },
 ];
 
+// In-memory store for registered users
+export const registeredUsers: {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: "freelancer";
+  kycStatus: "pending";
+  walletBalance: number;
+}[] = [];
+
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
@@ -31,7 +42,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const user = MOCK_USERS.find(
+  // Check mock users first, then registered users
+  const allUsers = [...MOCK_USERS, ...registeredUsers];
+  const user = allUsers.find(
     (u) => u.email === email && u.password === password,
   );
 
@@ -42,7 +55,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Mock JWT token
   const token = Buffer.from(
     JSON.stringify({ id: user.id, role: user.role }),
   ).toString("base64");

@@ -56,3 +56,11 @@ body {
     background-position: -200% 0;
   }
 }
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+  .table-scroll {
+    overflow-x: visible !important;
+  }
+}

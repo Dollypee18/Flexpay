@@ -59,10 +59,11 @@ export default function DashboardPage() {
 
         {/* Stats Grid */}
         <div
+          className="stats-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
-            gap: "16px",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "12px",
             marginBottom: "28px",
           }}
         >

@@ -69,8 +69,8 @@ export default function InvoicesPage() {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: "column",
+            gap: "16px",
             marginBottom: "24px",
           }}
         >
@@ -89,8 +89,14 @@ export default function InvoicesPage() {
               {filtered.length} of {invoices.length} shown
             </p>
           </div>
-
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
             <SearchInput
               value={query}
               onChange={setQuery}
@@ -99,7 +105,6 @@ export default function InvoicesPage() {
             <Button onClick={() => setShowModal(true)}>New Invoice</Button>
           </div>
         </div>
-
         {/* Filter Tabs */}
         <div style={{ marginBottom: "16px" }}>
           <FilterTabs
@@ -110,99 +115,104 @@ export default function InvoicesPage() {
         </div>
 
         {/* Table */}
-        <div
-          style={{
-            backgroundColor: "#161616",
-            border: "1px solid #2A2A2A",
-            borderRadius: "8px",
-            overflow: "hidden",
-          }}
-        >
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
-              padding: "12px 20px",
-              borderBottom: "1px solid #2A2A2A",
+              backgroundColor: "#161616",
+              border: "1px solid #2A2A2A",
+              borderRadius: "8px",
+              overflow: "hidden",
+              minWidth: "600px",
             }}
           >
-            {["Client", "Amount", "Status", "Due Date", "Action"].map((h) => (
-              <p
-                key={h}
-                style={{
-                  fontSize: "11px",
-                  color: "#555555",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  fontWeight: 500,
-                }}
-              >
-                {h}
-              </p>
-            ))}
-          </div>
-
-          {filtered.length === 0 ? (
-            <p
+            <div
               style={{
-                padding: "40px",
-                textAlign: "center",
-                color: "#555555",
-                fontSize: "13px",
+                display: "grid",
+                gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
+                padding: "12px 20px",
+                borderBottom: "1px solid #2A2A2A",
               }}
             >
-              No invoices found.
-            </p>
-          ) : (
-            filtered.map((inv, index) => (
-              <div
-                key={inv.id}
+              {["Client", "Amount", "Status", "Due Date", "Action"].map((h) => (
+                <p
+                  key={h}
+                  style={{
+                    fontSize: "11px",
+                    color: "#555555",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    fontWeight: 500,
+                  }}
+                >
+                  {h}
+                </p>
+              ))}
+            </div>
+
+            {filtered.length === 0 ? (
+              <p
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
-                  padding: "14px 20px",
-                  borderBottom:
-                    index < filtered.length - 1 ? "1px solid #2A2A2A" : "none",
-                  alignItems: "center",
+                  padding: "40px",
+                  textAlign: "center",
+                  color: "#555555",
+                  fontSize: "13px",
                 }}
               >
-                <div>
+                No invoices found.
+              </p>
+            ) : (
+              filtered.map((inv, index) => (
+                <div
+                  key={inv.id}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
+                    padding: "14px 20px",
+                    borderBottom:
+                      index < filtered.length - 1
+                        ? "1px solid #2A2A2A"
+                        : "none",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <p
+                      style={{
+                        fontSize: "13px",
+                        color: "#F0F0F0",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {inv.clientName}
+                    </p>
+                    <p style={{ fontSize: "11px", color: "#555555" }}>
+                      {inv.clientEmail}
+                    </p>
+                  </div>
                   <p
                     style={{
                       fontSize: "13px",
                       color: "#F0F0F0",
-                      marginBottom: "2px",
+                      fontFamily: "DM Mono, monospace",
                     }}
                   >
-                    {inv.clientName}
+                    {formatCurrency(inv.amount, inv.currency)}
                   </p>
-                  <p style={{ fontSize: "11px", color: "#555555" }}>
-                    {inv.clientEmail}
+                  <Badge variant={inv.status} />
+                  <p style={{ fontSize: "12px", color: "#888888" }}>
+                    {formatDate(inv.dueDate)}
                   </p>
+                  <InvoiceActions
+                    invoice={inv}
+                    onSuccess={(msg) =>
+                      setToast({ message: msg, type: "success" })
+                    }
+                    onError={(msg) => setToast({ message: msg, type: "error" })}
+                  />
                 </div>
-                <p
-                  style={{
-                    fontSize: "13px",
-                    color: "#F0F0F0",
-                    fontFamily: "DM Mono, monospace",
-                  }}
-                >
-                  {formatCurrency(inv.amount, inv.currency)}
-                </p>
-                <Badge variant={inv.status} />
-                <p style={{ fontSize: "12px", color: "#888888" }}>
-                  {formatDate(inv.dueDate)}
-                </p>
-                <InvoiceActions
-                  invoice={inv}
-                  onSuccess={(msg) =>
-                    setToast({ message: msg, type: "success" })
-                  }
-                  onError={(msg) => setToast({ message: msg, type: "error" })}
-                />
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
       </div>
 
